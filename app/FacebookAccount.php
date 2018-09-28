@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class FacebookAccount extends Model
 {
-    //
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany('App\Group');
+    }
 }
