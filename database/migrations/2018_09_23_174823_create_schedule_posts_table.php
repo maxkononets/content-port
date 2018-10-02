@@ -17,10 +17,9 @@ class CreateSchedulePostsTable extends Migration
             $table->increments('id');
             $table->text('text');
             $table->timestampTz('date_to_post')->unique();
+            $table->timestamps();
             $table->unsignedInteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups');
-
-            $table->timestamps();
         });
     }
 

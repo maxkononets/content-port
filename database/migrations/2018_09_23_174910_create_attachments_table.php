@@ -16,6 +16,7 @@ class CreateAttachmentsTable extends Migration
         Schema::create('attachments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('route');
+            $table->timestamps();
             $table->unsignedInteger('schedule_post_id');
             $table->foreign('schedule_post_id')->references('id')->on('schedule_posts');
         });
