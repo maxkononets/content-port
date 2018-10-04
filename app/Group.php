@@ -11,7 +11,7 @@ class Group extends Model
      */
     public function schedulePosts()
     {
-        return $this->hasMany('App\ScedulePost');
+        return $this->hasMany('App\SchedulePost');
     }
 
     /**
