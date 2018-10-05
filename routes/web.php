@@ -22,6 +22,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+Route::get('/login/facebook', 'Auth\LoginController@redirectToFacebookProvider');
+
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderFacebookCallback');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', 'ProfileController@index')->name('profile');
     Route::get('/secure', 'ProfileController@secure')->name('secure');
