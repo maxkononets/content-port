@@ -52,6 +52,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
+                                    <li><a href="{{route('profile')}}">Profile</a></li>
+                                    <li><a href="{{route('secure')}}">Secure</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -67,6 +69,14 @@
                             </li>
                         @endguest
                     </ul>
+                    @auth
+                        <ul class="nav navbar-nav navbar-center">
+                            <li><a href="{{route('new.post')}}">New Post</a></li>
+                            <li><a href="{{route('my.group')}}">My Page</a></li>
+                            <li><a href="{{route('search.content')}}">Content search</a></li>
+{{--                            <li><a href="{{route('shedule.posts')}}">Schedule Posts</a></li>--}}
+                        </ul>
+                    @endauth
                 </div>
             </div>
         </nav>
