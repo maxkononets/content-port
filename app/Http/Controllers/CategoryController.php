@@ -44,4 +44,15 @@ class CategoryController extends Controller
         $category->save();
         return back();
     }
+
+    /**
+     * @param UserCategory $category
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(UserCategory $category)
+    {
+        $category->delete();
+        return back();
+    }
 }
