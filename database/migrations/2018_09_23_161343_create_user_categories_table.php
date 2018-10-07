@@ -19,6 +19,10 @@ class CreateUserCategoriesTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unique([
+                'name',
+                'user_id',
+            ]);
         });
     }
 

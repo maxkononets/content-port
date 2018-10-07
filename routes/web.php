@@ -37,6 +37,4 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/search/content', 'CategoryController@searchContent')->name('search.content');
     Route::post('/category', 'CategoryController@store')->name('store.category');
-    Route::get('/add', 'CategoryController@add')->name('add.category');
-
 });

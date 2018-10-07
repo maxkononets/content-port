@@ -43,7 +43,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('facebook.login') }}">Facebook Login</a></li>
+                            <li><a href="{{ route('facebook.login') }}">Login with Facebook</a></li>
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
@@ -75,7 +75,7 @@
                             <li><a href="{{route('new.post')}}">New Post</a></li>
                             <li><a href="{{route('my.group')}}">My Page</a></li>
                             <li><a href="{{route('search.content')}}">Content search</a></li>
-{{--                            <li><a href="{{route('shedule.posts')}}">Schedule Posts</a></li>--}}
+{{--                            <li><a href="{{route('shedule.posts')}}">Scheduled Posts</a></li>--}}
                         </ul>
                     @endauth
                 </div>

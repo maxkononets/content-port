@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomCategory;
+use App\Http\Requests\StoreCategoryRequest;
 use App\UserCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,14 +35,13 @@ class CategoryController extends Controller
      * @param Request $name
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function store(Request $name)
+    public function store(StoreCategoryRequest $name)
     {
         $category = new UserCategory();
         $category->fill($name->all() + [
             'user_id' => Auth::id(),
                 ]);
         $category->save();
-
-        return view('category.store');
+        return back();
     }
 }
