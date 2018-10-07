@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserCategory extends Model
 {
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

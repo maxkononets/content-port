@@ -46,11 +46,15 @@ class User extends Authenticatable
         return $this->hasMany('App\FacebookAccount');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
     public function adminGroups()
     {
-        return $this->hasManyThrough( 'App\Group', 'App\FacebookAccount');
+        $groups = array();
+        $accounts = FacebookAccount::all()->where('user_id', '=', $this->id);
+        foreach ($accounts as $account){
+            foreach ($account->groups as $group) {
+                array_push($groups, $group);
+            }
+        }
+        return $groups;
     }
 }
