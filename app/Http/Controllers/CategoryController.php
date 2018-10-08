@@ -35,12 +35,12 @@ class CategoryController extends Controller
      * @param Request $name
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function store(StoreCategoryRequest $name)
+    public function storeCategory(StoreCategoryRequest $name)
     {
         $category = new UserCategory();
         $category->fill($name->all() + [
-            'user_id' => Auth::id(),
-                ]);
+                'user_id' => Auth::id(),
+            ]);
         $category->save();
         return back();
     }
@@ -54,5 +54,23 @@ class CategoryController extends Controller
     {
         $category->delete();
         return back();
+    }
+
+    public function showCategory(UserCategory $category)
+    {
+        $groups = $category->groups;
+        return view('category.category', [
+            'category' => $category,
+            'groups' => $groups,
+        ]);
+    }
+
+    public function showCustomCategory(CustomCategory $category)
+    {
+        $groups = $category->groups;
+        return view('category.category', [
+            'category' => $category,
+            'groups' => $groups,
+        ]);
     }
 }

@@ -34,8 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/newpost', 'PostController@newPost')->name('new.post');
 
     Route::get('/mygroups', 'GroupController@myGroups')->name('my.group');
+    Route::post('/group/store', 'GroupController@storeGroup')->name('store.group');
+    Route::get('/group/delete/{group}', 'GroupController@destroyGroup')->name('group.destroy');
 
     Route::get('/search/content', 'CategoryController@searchContent')->name('search.content');
-    Route::post('/category', 'CategoryController@store')->name('store.category');
-    Route::get('/category/{category}', 'CategoryController@destroy')->name('category.destroy');
+    Route::post('/category', 'CategoryController@storeCategory')->name('store.category');
+    Route::get('/category/delete/{category}', 'CategoryController@destroy')->name('category.destroy');
+    Route::get('/category/{category}', 'CategoryController@showCategory')->name('category.show');
+    Route::get('/category/custom/{category}', 'CategoryController@showCustomCategory')->name('custom.category.show');
 });

@@ -22,14 +22,14 @@
         </form>
         @foreach($user_category as $category)
             <p>
-                <a href="#">{{$category->name}}</a>
+                <a href="{{route('category.show', ['category' => $category])}}">{{$category->name}}</a>
                 <a href="{{route('category.destroy', ['category' => $category])}}" style="color: red">X</a>
             </p>
         @endforeach
 
         <h3>Custom Category</h3>
         @foreach($custom_category as $category)
-            <p>{{$category->name}}</p>
+            <p><a href="{{route('custom.category.show', ['category' => $category])}}">{{$category->name}}</a></p>
         @endforeach
     </div>
 @endsection
