@@ -32,6 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/secure', 'ProfileController@secure')->name('secure');
 
     Route::get('/newpost', 'PostController@newPost')->name('new.post');
+    Route::get('/schedule', 'PostController@showScheduledPosts')->name('schedule.post.group');
+    Route::get('/schedule/group/{group}', 'PostController@showScheduledPostsGroup')->name('schedule.post');
+    Route::get('/post/delete/{post}', 'PostController@destroyPost')->name('post.destroy');
+    Route::get('/posts/update/{post}', 'PostController@update')->name('post.update');
+    Route::put('/posts/edit/{post}', 'PostController@editPost')->name('post.edit');
 
     Route::get('/mygroups', 'GroupController@myGroups')->name('my.group');
     Route::post('/group/store', 'GroupController@storeGroup')->name('store.group');

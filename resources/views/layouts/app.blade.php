@@ -75,7 +75,7 @@
                             <li><a href="{{route('new.post')}}">New Post</a></li>
                             <li><a href="{{route('my.group')}}">My Page</a></li>
                             <li><a href="{{route('search.content')}}">Content search</a></li>
-{{--                            <li><a href="{{route('shedule.posts')}}">Scheduled Posts</a></li>--}}
+                            <li><a href="{{route('schedule.post.group')}}">Scheduled Posts</a></li>
                         </ul>
                     @endauth
                 </div>

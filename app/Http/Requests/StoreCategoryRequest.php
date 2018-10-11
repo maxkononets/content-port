@@ -31,7 +31,7 @@ class StoreCategoryRequest extends FormRequest
                 Rule::unique('user_categories')->where(function ($query) {
                     return $query->where('user_id', Auth::id());
                 }),
-            ]
+            ],
         ];
     }
 
