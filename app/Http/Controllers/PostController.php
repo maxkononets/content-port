@@ -45,17 +45,6 @@ class PostController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function showScheduledPosts()
-    {
-        $adminGroups = Auth::user()->adminGroups();
-        return view('schedule.groups', [
-            'groups' => $adminGroups,
-        ]);
-    }
-
-    /**
      * @param Group $group
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

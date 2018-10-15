@@ -75,7 +75,20 @@
                             <li><a href="{{route('new.post')}}">New Post</a></li>
                             <li><a href="{{route('my.group')}}">My Page</a></li>
                             <li><a href="{{route('search.content')}}">Content search</a></li>
-                            <li><a href="{{route('schedule.post.group')}}">Scheduled Posts</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Scheduled Posts<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach(\Illuminate\Support\Facades\Auth::user()->adminGroups() as $group)
+                                        <li>
+                                            <a href="{{route('schedule.post', ['group' => $group])}}">{{$group->name}}
+                                                <span>({{$group->schedulePosts->count()}})</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         </ul>
                     @endauth
                 </div>
