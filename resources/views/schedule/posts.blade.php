@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="mega" align="center">
+    <div id="mega"  style="margin: auto; width: 40%">
         <div id="date">
-            <h3>{{$group->name}} -({{$group->schedulePosts->count()}})</h3>
+            <h3>{{$group->name}} ({{$group->schedulePosts->count()}})</h3>
         </div>
         <div id="posts">
             @foreach($posts as $post)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attachment;
 use App\Group;
 use App\Http\Requests\SchedulePostRequest;
 use App\SchedulePost;
@@ -46,9 +47,10 @@ class PostController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showScheduledPosts(){
+    public function showScheduledPosts()
+    {
         $adminGroups = Auth::user()->adminGroups();
-        return view('schedule.groups',[
+        return view('schedule.groups', [
             'groups' => $adminGroups,
         ]);
     }
@@ -73,9 +75,11 @@ class PostController extends Controller
     public function update(schedulePost $post)
     {
         $attachments = $post->attachments;
+        $adminGroups = Auth::user()->adminGroups();
         return view('schedule.update', [
             'post' => $post,
             'attachments' => $attachments,
+            'admin_groups' => $adminGroups,
         ]);
     }
 
@@ -98,7 +102,51 @@ class PostController extends Controller
     public function editPost(SchedulePostRequest $request, schedulePost $post)
     {
         $post->fill($request->all());
+        Group::find($request->group_id)->schedulePosts()->save($post);
+
+
+        if (isset($request->attachments[0])) {
+            foreach ($request->attachments as $attachment) {
+                $obj = new Attachment();
+                $obj->route = $attachment;
+                $post->attachments()->save($obj);
+            }
+        }
+
         $post->save();
         return $this->showScheduledPostsGroup(Group::find($post->group_id));
+    }
+
+    /**
+     * @param Attachment $attachment
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroyAttachment(Attachment $attachment)
+    {
+        $attachment->delete();
+        return back();
+    }
+
+    /**
+     * @param SchedulePostRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeSchedulePost(SchedulePostRequest $request)
+    {
+        $post = new SchedulePost();
+        $post->fill($request->all());
+        Group::find($request->group_id)->schedulePosts()->save($post);
+
+
+        if (isset($request->attachments[0])) {
+            foreach ($request->attachments as $attachment) {
+                $obj = new Attachment();
+                $obj->route = $attachment;
+                $post->attachments()->save($obj);
+            }
+        }
+        $post->save();
+        return back();
     }
 }
