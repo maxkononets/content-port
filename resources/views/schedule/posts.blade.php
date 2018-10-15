@@ -7,10 +7,13 @@
         </div>
         <div id="posts">
             @foreach($posts as $post)
-                <p>{{$post->date_to_post}}</p>
-                <p>{{$post->text}}</p>
-                <a href="{{route('post.update', ['post' => $post])}}">Edit</a>
-                <a style="color: red;" href="{{route('post.destroy', ['post' => $post])}}">delete</a>
+                <div>
+                    <p>{{$post->date}} {{$post->time}}</p>
+                    <p>{{$post->text}}</p>
+                    <a href="{{route('post.update', ['post' => $post])}}">Edit</a>
+                    <a style="color: red;" href="{{route('post.destroy', ['post' => $post])}}">delete</a>
+                </div>
+                <br>
             @endforeach
         </div>
     </div>
