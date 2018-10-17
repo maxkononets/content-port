@@ -39,6 +39,7 @@ class SchedulePostRequest extends FormRequest
                 if ($this->request->all()['date'] == date('Y-m-d')) $time .= '|after:now';
                 return $time;
             })(),
+            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

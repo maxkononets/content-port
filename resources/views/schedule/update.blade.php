@@ -4,7 +4,7 @@
     <div style="margin: auto; width: 40%">
         <div>
             <h1>Edit post</h1>
-            <form method="post" action="{{route('post.edit', ['post' => $post])}}">
+            <form method="post" action="{{route('post.edit', ['post' => $post])}}" enctype="multipart/form-data">
 
                 <input type="hidden" name="_method" value="PUT"/>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -49,11 +49,11 @@
                 <div>
                     @foreach($attachments as $attachment)
                         <a href="{{route('attachment.destroy', ['attachment' => $attachment])}}">X </a>
-                        {{$attachment->route}}
+                        {{$attachment->name}}
                         <br>
                     @endforeach
                     <lable for="attachments">Add file</lable>
-                    <input type="file" name="attachments[]" multiple="multiple">
+                    <input type="file" name="attachments[]" class="attachments" multiple>
                 </div>
                 <button>Edit</button>
             </form>

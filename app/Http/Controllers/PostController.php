@@ -93,28 +93,23 @@ class PostController extends Controller
         $post->fill($request->all());
         Group::find($request->group_id)->schedulePosts()->save($post);
 
-
-        if (isset($request->attachments[0])) {
-            foreach ($request->attachments as $attachment) {
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $attachment) {
+                $name = $attachment->getClientOriginalName();
+                $size = $attachment->getSize();
+                $route = $attachment->store('attachments/image');
                 $obj = new Attachment();
-                $obj->route = $attachment;
+                $obj->fill([
+                    'name' => $name,
+                    'size' => $size,
+                    'route' => $route,
+                ]);
                 $post->attachments()->save($obj);
             }
         }
 
         $post->save();
         return $this->showScheduledPostsGroup(Group::find($post->group_id));
-    }
-
-    /**
-     * @param Attachment $attachment
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroyAttachment(Attachment $attachment)
-    {
-        $attachment->delete();
-        return back();
     }
 
     /**
