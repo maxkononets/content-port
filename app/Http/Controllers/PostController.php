@@ -123,13 +123,21 @@ class PostController extends Controller
         Group::find($request->group_id)->schedulePosts()->save($post);
 
 
-        if (isset($request->attachments[0])) {
-            foreach ($request->attachments as $attachment) {
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $attachment) {
+                $name = $attachment->getClientOriginalName();
+                $size = $attachment->getSize();
+                $route = $attachment->store('attachments/image');
                 $obj = new Attachment();
-                $obj->route = $attachment;
+                $obj->fill([
+                    'name' => $name,
+                    'size' => $size,
+                    'route' => $route,
+                ]);
                 $post->attachments()->save($obj);
             }
         }
+
         $post->save();
         return back();
     }

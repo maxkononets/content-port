@@ -3,7 +3,7 @@
 @section('content')
     <div style="margin: auto; width: 40%">
         <h1>New post</h1>
-        <form method="post" action="{{route('post.store')}}">
+        <form method="post" action="{{route('post.store')}}" enctype="multipart/form-data">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -41,9 +41,9 @@
             </div>
             <div>
                 <label for="attachments">Add file</label>
-                <input type="file" name="attachments[]" multiple="multiple">
+                <input type="file" name="attachments[]" multiple>
             </div>
-            <button>Edit</button>
+            <button>Shedule</button>
         </form>
     </div>
 @endsection
