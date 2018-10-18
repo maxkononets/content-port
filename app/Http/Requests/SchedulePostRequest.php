@@ -34,9 +34,12 @@ class SchedulePostRequest extends FormRequest
         return [
             'text' => 'required|max:500',
             'date' => 'required|after:yesterday',
-            'time' => (function (){
+            'time' => (function () {
                 $time = 'required';
-                if ($this->request->all()['date'] == date('Y-m-d')) $time .= '|after:now';
+                if ($this->request->all()['date'] == date('Y-m-d')) {
+                    $time .= '|after:now';
+                }
+
                 return $time;
             })(),
             'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',

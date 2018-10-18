@@ -43,4 +43,11 @@ class GroupController extends Controller
         return back();
     }
 
+    public function disableGroup(Group $group)
+    {
+        $group->condition = (int)!$group->condition;
+        $group->save();
+        return back();
+    }
+
 }

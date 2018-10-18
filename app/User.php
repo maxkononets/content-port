@@ -46,13 +46,14 @@ class User extends Authenticatable
         return $this->hasMany('App\FacebookAccount');
     }
 
-    public function adminGroups()
+    public function adminGroups(bool $condition = false)
     {
-        $groups = array();
+        $groups = [];
         $accounts = FacebookAccount::all()->where('user_id', '=', $this->id);
-        foreach ($accounts as $account){
-            foreach ($account->groups as $group) {
-                array_push($groups, $group);
+        foreach ($accounts as $account) {
+            $groupsAccount = $condition ? $account->groups()->where('condition', $condition)->get() : $account->groups;
+            foreach ($groupsAccount as $group) {
+                    array_push($groups, $group);
             }
         }
         return $groups;

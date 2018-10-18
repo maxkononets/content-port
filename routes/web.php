@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mygroups', 'GroupController@myGroups')->name('my.group');
     Route::post('/group/store', 'GroupController@storeGroup')->name('store.group');
     Route::get('/group/delete/{group}', 'GroupController@destroyGroup')->name('group.destroy');
+    Route::get('/group/disable/{group}', 'GroupController@disableGroup')->name('group.disable');
 
     Route::get('/search/content', 'CategoryController@searchContent')->name('search.content');
     Route::post('/category', 'CategoryController@storeCategory')->name('store.category');
