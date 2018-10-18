@@ -46,6 +46,10 @@ class User extends Authenticatable
         return $this->hasMany('App\FacebookAccount');
     }
 
+    /**
+     * @param bool $condition
+     * @return array
+     */
     public function adminGroups(bool $condition = false)
     {
         $groups = [];

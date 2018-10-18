@@ -22,6 +22,10 @@ class GroupController extends Controller
         ]);
     }
 
+    /**
+     * @param StoreGroupRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function storeGroup(StoreGroupRequest $request)
     {
         $category = UserCategory::find($request->category);
@@ -37,12 +41,21 @@ class GroupController extends Controller
         return back();
     }
 
+    /**
+     * @param Group $group
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function destroyGroup(Group $group)
     {
         $group->delete();
         return back();
     }
 
+    /**
+     * @param Group $group
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function disableGroup(Group $group)
     {
         $group->condition = (int)!$group->condition;

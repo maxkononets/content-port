@@ -11,19 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
     /**
-     * @param SchedulePostRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function schedule(SchedulePostRequest $request)
-    {
-        $shedulePost = new SchedulePost();
-        $shedulePost->fill($request->all());
-        $shedulePost->save();
-        return redirect()->back();
-
-    }
-
-    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function newPost()
@@ -93,20 +80,7 @@ class PostController extends Controller
         $post->fill($request->all());
         Group::find($request->group_id)->schedulePosts()->save($post);
 
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $attachment) {
-                $name = $attachment->getClientOriginalName();
-                $size = $attachment->getSize();
-                $route = $attachment->store('attachments/image');
-                $obj = new Attachment();
-                $obj->fill([
-                    'name' => $name,
-                    'size' => $size,
-                    'route' => $route,
-                ]);
-                $post->attachments()->save($obj);
-            }
-        }
+        Attachment::store($request, $post);
 
         $post->save();
         return $this->showScheduledPostsGroup(Group::find($post->group_id));
@@ -122,21 +96,7 @@ class PostController extends Controller
         $post->fill($request->all());
         Group::find($request->group_id)->schedulePosts()->save($post);
 
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $attachment) {
-                $name = $attachment->getClientOriginalName();
-                $size = $attachment->getSize();
-                $route = $attachment->store('attachments/image');
-                $obj = new Attachment();
-                $obj->fill([
-                    'name' => $name,
-                    'size' => $size,
-                    'route' => $route,
-                ]);
-                $post->attachments()->save($obj);
-            }
-        }
+        Attachment::store($request, $post);
 
         $post->save();
         return back();
