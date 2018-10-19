@@ -43,7 +43,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('facebook.login') }}">Facebook Login</a></li>
+                            <li><a href="{{ route('facebook.login') }}">Login with Facebook</a></li>
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
@@ -75,7 +75,20 @@
                             <li><a href="{{route('new.post')}}">New Post</a></li>
                             <li><a href="{{route('my.group')}}">My Page</a></li>
                             <li><a href="{{route('search.content')}}">Content search</a></li>
-{{--                            <li><a href="{{route('shedule.posts')}}">Schedule Posts</a></li>--}}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Scheduled Posts<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach(\Illuminate\Support\Facades\Auth::user()->adminGroups(true) as $group)
+                                        <li>
+                                            <a href="{{route('schedule.post', ['group' => $group])}}">{{$group->name}}
+                                                <span>({{$group->schedulePosts->count()}})</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         </ul>
                     @endauth
                 </div>

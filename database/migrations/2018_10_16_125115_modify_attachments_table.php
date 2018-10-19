@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupsTable extends Migration
+class ModifyAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('link');
-            $table->timestamps();
+        Schema::table('attachments', function (Blueprint $table){
+            $table->string('name')->after('id');
+            $table->integer('size')->after('name');
         });
     }
 
@@ -28,6 +26,9 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::table('attachments', function (Blueprint $table){
+            $table->dropColumn('name');
+            $table->dropColumn('size');
+        });
     }
 }

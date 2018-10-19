@@ -32,11 +32,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/secure', 'ProfileController@secure')->name('secure');
 
     Route::get('/newpost', 'PostController@newPost')->name('new.post');
+    Route::get('/schedule/group/{group}', 'PostController@showScheduledPostsGroup')->name('schedule.post');
+    Route::get('/post/delete/{post}', 'PostController@destroyPost')->name('post.destroy');
+    Route::get('/posts/update/{post}', 'PostController@update')->name('post.update');
+    Route::put('/posts/edit/{post}', 'PostController@editPost')->name('post.edit');
+    Route::post('/shedule/post', 'PostController@storeSchedulePost')->name('post.store');
+
+    Route::get('/attachment/delete/{attachment}', 'AttachmentController@destroy')->name('attachment.destroy');
 
     Route::get('/mygroups', 'GroupController@myGroups')->name('my.group');
+    Route::post('/group/store', 'GroupController@storeGroup')->name('store.group');
+    Route::get('/group/delete/{group}', 'GroupController@destroyGroup')->name('group.destroy');
+    Route::get('/group/disable/{group}', 'GroupController@disableGroup')->name('group.disable');
 
     Route::get('/search/content', 'CategoryController@searchContent')->name('search.content');
-    Route::post('/category', 'CategoryController@store')->name('store.category');
-    Route::get('/add', 'CategoryController@add')->name('add.category');
-
+    Route::post('/category', 'CategoryController@storeCategory')->name('store.category');
+    Route::get('/category/delete/{category}', 'CategoryController@destroy')->name('category.destroy');
+    Route::get('/category/{category}', 'CategoryController@showCategory')->name('category.show');
+    Route::get('/category/custom/{category}', 'CategoryController@showCustomCategory')->name('custom.category.show');
 });

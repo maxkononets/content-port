@@ -9,17 +9,40 @@
 namespace App\Http\Requests;
 
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class SchedulePostRequest extends FormRequest
 {
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
             'text' => 'required|max:500',
-            'date_to_post' => 'required|unique:schedule_posts,date_to_post|after:now',
-            'attachments.*' => 'active_url',
+            'date' => 'required|after:yesterday',
+            'time' => (function () {
+                $time = 'required';
+                if ($this->request->all()['date'] == date('Y-m-d')) {
+                    $time .= '|after:now';
+                }
+
+                return $time;
+            })(),
+            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
