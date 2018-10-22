@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/posts/edit/{post}', 'PostController@editPost')->name('post.edit');
     Route::post('/shedule/post', 'PostController@storeSchedulePost')->name('post.store');
 
-    Route::get('/attachment/delete/{attachment}', 'AttachmentController@destroy')->name('attachment.destroy');
+    Route::get('/attachment/delete/{instance}', 'AttachmentController@destroy')->name('attachment.destroy');
 
     Route::get('/mygroups', 'GroupController@myGroups')->name('my.group');
     Route::post('/group/store', 'GroupController@storeGroup')->name('store.group');

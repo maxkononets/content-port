@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Attachment;
-
 class AttachmentController extends Controller
 {
     /**
-     * @param Attachment $attachment
+     * @param $attachment
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
      */
-    public function destroy(Attachment $attachment)
+    public function destroy($attachment)
     {
         $attachment->delete();
         return back();

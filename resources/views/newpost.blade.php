@@ -40,8 +40,12 @@
                 @endif
             </div>
             <div>
-                <label for="attachments">Add file</label>
-                <input type="file" name="attachments[]" multiple>
+                <label for="images">Add images</label>
+                <input type="file" accept=".jpeg,.png,.jpg,.gif" name="images[]" multiple>
+            </div>
+            <div>
+                <label for="videos">Add videos</label>
+                <input type="file" accept="video/*" name="videos[]" multiple>
             </div>
             <button>Shedule</button>
         </form>

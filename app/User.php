@@ -33,6 +33,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function attachments()
+    {
+        return $this->hasMany('App\Attachment');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function categories()
     {
         return $this->hasMany('App\UserCategory');
