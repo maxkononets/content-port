@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ModifyAttachmentsTable extends Migration
+class CreateVideosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class ModifyAttachmentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('attachments', function (Blueprint $table){
-            $table->string('name')->after('id');
-            $table->integer('size')->after('name');
+        Schema::create('videos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('route');
+            $table->integer('size');
+            $table->timestamps();
         });
     }
 
@@ -26,9 +29,6 @@ class ModifyAttachmentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('attachments', function (Blueprint $table){
-            $table->dropColumn('name');
-            $table->dropColumn('size');
-        });
+        Schema::dropIfExists('videos');
     }
 }

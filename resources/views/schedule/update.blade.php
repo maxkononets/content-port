@@ -47,13 +47,23 @@
                     @endif
                 </div>
                 <div>
-                    @foreach($attachments as $attachment)
-                        <a href="{{route('attachment.destroy', ['attachment' => $attachment])}}">X </a>
-                        {{$attachment->name}}
+                    @foreach($images as $image)
+                        {{--<a href="{{route('attachment.destroy', ['attachment' => $image])}}">X </a>--}}
+                        <span class="image-destroy-btn">X </span>
+                        <span>{{$image->name}}</span>
                         <br>
                     @endforeach
-                    <lable for="attachments">Add file</lable>
-                    <input type="file" name="attachments[]" class="attachments" multiple>
+                    <label for="images">Add images</label>
+                    <input type="file" accept=".jpeg,.png,.jpg,.gif" name="images[]" multiple>
+                </div>
+                <div>
+                    @foreach($videos as $video)
+                        <span class="video-destroy-btn">X </span>
+                        <span>{{$video->name}}</span>
+                        <br>
+                    @endforeach
+                    <label for="videos">Add videos</label>
+                    <input type="file" accept="video/*" name="videos[]" multiple>
                 </div>
                 <button>Edit</button>
             </form>

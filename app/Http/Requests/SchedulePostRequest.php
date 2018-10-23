@@ -42,7 +42,8 @@ class SchedulePostRequest extends FormRequest
 
                 return $time;
             })(),
-            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'videos.*' => 'max:20480',
         ];
     }
 }

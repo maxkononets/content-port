@@ -14,10 +14,10 @@ class SchedulePost extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function attachments()
     {
-        return $this->hasMany('App\Attachment');
+        return $this->belongsToMany('App\Attachment');
     }
 }
