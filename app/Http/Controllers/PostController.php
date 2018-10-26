@@ -51,11 +51,14 @@ class PostController extends Controller
     public function update(schedulePost $post)
     {
         $attachments = Attachment::getOwnerAttachments($post);
+        $gallery = Attachment::getOwnerAttachments(Auth::user());
         $adminGroups = Auth::user()->adminGroups();
         return view('schedule.update', [
                 'post' => $post,
                 'admin_groups' => $adminGroups,
-            ] + $attachments
+            ] + $attachments + [
+                'gallery' => $gallery,
+                ]
         );
     }
 
