@@ -15,7 +15,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -24,6 +26,35 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categories()
+    {
+        return $this->hasMany('App\UserCategory');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function facebookAccounts()
+    {
+        return $this->hasMany('App\FacebookAccount');
+    }
+
+    public function adminGroups()
+    {
+        $groups = array();
+        $accounts = FacebookAccount::all()->where('user_id', '=', $this->id);
+        foreach ($accounts as $account){
+            foreach ($account->groups as $group) {
+                array_push($groups, $group);
+            }
+        }
+        return $groups;
+    }
 }

@@ -1,0 +1,9 @@
+@extends('layouts.app')
+@section('sidebar')
+ <p>hello</p>
+@endsection
+@section('content')
+<div>
+    {{$user}}
+</div>
+@endsection
