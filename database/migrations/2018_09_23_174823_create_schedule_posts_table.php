@@ -16,10 +16,16 @@ class CreateSchedulePostsTable extends Migration
         Schema::create('schedule_posts', function (Blueprint $table) {
             $table->increments('id');
             $table->text('text');
-            $table->timestampTz('date_to_post')->unique();
-            $table->timestamps();
+            $table->date('date');
+            $table->timeTz('time');
             $table->unsignedInteger('group_id');
+            $table->timestamps();
             $table->foreign('group_id')->references('id')->on('groups');
+            $table->unique([
+                'date',
+                'time',
+                'group_id',
+            ]);
         });
     }
 

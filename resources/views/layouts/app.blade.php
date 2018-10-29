@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/my_css.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -43,7 +45,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('facebook.login') }}">Facebook Login</a></li>
+                            <li><a href="{{ route('facebook.login') }}">Login with Facebook</a></li>
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
@@ -75,7 +77,20 @@
                             <li><a href="{{route('new.post')}}">New Post</a></li>
                             <li><a href="{{route('my.group')}}">My Page</a></li>
                             <li><a href="{{route('search.content')}}">Content search</a></li>
-{{--                            <li><a href="{{route('shedule.posts')}}">Schedule Posts</a></li>--}}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Scheduled Posts<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach(\Illuminate\Support\Facades\Auth::user()->adminGroups(true) as $group)
+                                        <li>
+                                            <a href="{{route('schedule.post', ['group' => $group])}}">{{$group->name}}
+                                                <span>({{$group->schedulePosts->count()}})</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         </ul>
                     @endauth
                 </div>
@@ -84,8 +99,10 @@
 
         @yield('content')
     </div>
-
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/post_editor.js') }}"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserCategoriesTable extends Migration
+class CreateVideosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreateUserCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_categories', function (Blueprint $table) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('route');
+            $table->integer('size');
             $table->timestamps();
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unique([
-                'name',
-                'user_id',
-            ]);
         });
     }
 
@@ -33,6 +29,6 @@ class CreateUserCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_categories');
+        Schema::dropIfExists('videos');
     }
 }
