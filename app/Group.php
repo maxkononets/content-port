@@ -26,4 +26,14 @@ class Group extends Model
     {
         return $this->belongsToMany('App\FacebookAccount');
     }
+
+    /**
+     * @param Group $group
+     * @return mixed
+     */
+    public function busyTime(Group $group)
+    {
+        $schedulePosts = SchedulePost::where('group_id', '=', $group->id)->pluck('date_to_post');
+        return $schedulePosts;
+    }
 }

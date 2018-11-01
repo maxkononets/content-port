@@ -8,8 +8,8 @@
         <div id="posts">
             @foreach($posts as $post)
                 <div>
-                    <p>{{$post->date}} {{$post->time}}</p>
                     <p>{{$post->text}}</p>
+                    <p>{{$post->date}} {{$post->time}}</p>
                     <a href="{{route('post.update', ['post' => $post])}}">Edit</a>
                     <a style="color: red;" href="{{route('post.destroy', ['post' => $post])}}">delete</a>
                 </div>

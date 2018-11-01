@@ -16,19 +16,12 @@ class PostController extends Controller
     public function newPost()
     {
         $adminGroups = Auth::user()->adminGroups();
+        $gallery = Attachment::getOwnerAttachments(Auth::user());
+
         return view('newpost', [
             'admin_groups' => $adminGroups,
+            'gallery' => $gallery,
         ]);
-    }
-
-    /**
-     * @param Group $group
-     * @return mixed
-     */
-    public function busyTime(Group $group)
-    {
-        $schedulePosts = SchedulePost::where('group_id', '=', $group->id)->pluck('date_to_post');
-        return $schedulePosts;
     }
 
     /**

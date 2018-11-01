@@ -71,7 +71,7 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#videoModal">
                             video gallery
                         </button>
-                    <input type="file" accept="video/*" name="videos[]" multiple>
+                        <input type="file" accept="video/*" name="videos[]" multiple>
                 </div>
                 <button>Edit</button>
             </form>
