@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Providers\Categoriable;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCategory extends Model
+class UserCategory extends Model implements Categoriable
 {
     protected $fillable = [
         'name',
