@@ -21,6 +21,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
     public $fb;
+    public $facebookLoginService;
 
     /**
      * LoginController constructor.
@@ -29,6 +30,7 @@ class LoginController extends Controller
     {
         $this->fb = $fb;
         $this->middleware('guest')->except('logout');
+        $this->facebookLoginService = new FacebookLoginService();
     }
 
     /**
@@ -70,27 +72,13 @@ class LoginController extends Controller
         ])->redirect();
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function handleProviderFacebookCallback()
     {
-        $auth_user = Socialite::driver('facebook')->user();
-        $user = User::updateOrCreate(
-            [
-                'email' => $auth_user->email
-            ],
-            [
-                'name' => $auth_user->name,
-                'password' => bcrypt(str_random(20))
-            ]);
-
-        $user->facebookAccounts()->updateOrCreate(
-            [
-                'id' => (int)$auth_user->id
-            ],
-            [
-                'name' => $auth_user->name,
-                'link' => $auth_user->profileUrl,
-                'token' => $auth_user->token,
-            ]);
+        $authUser = Socialite::driver('facebook')->user();
+        $user = $this->facebookLoginService->createOrUpdateUser($authUser);
 
         Auth::login($user, true);
         return redirect()->to('/');
