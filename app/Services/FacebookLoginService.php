@@ -48,6 +48,9 @@ class FacebookLoginService
                 'token' => $fbAccountData->token,
             ]);
 
+        $groupService = new GroupService();
+        $groupService->addGroupsFromFbAccount($fbAccountData->id);
+
         return $user;
     }
 }

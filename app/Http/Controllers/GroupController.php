@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Http\Requests\StoreGroupRequest;
+use App\Services\GroupService;
 use App\UserCategory;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,4 +64,13 @@ class GroupController extends Controller
         return back();
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function refreshGroup()
+    {
+        $groupService = new GroupService();
+        $groupService->refreshGroupList();
+        return back();
+    }
 }

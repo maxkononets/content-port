@@ -167,7 +167,6 @@ return [
         /*
          * Package Service Providers...
          */
-        App\Providers\FacebookServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -176,6 +175,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FacebookServiceProvider::class,
 
     ],
 
@@ -226,7 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
-        'Facebook' => \App\Providers\FacebookServiceProvider::class,
+        'Facebook' => App\Providers\FacebookServiceProvider::class,
 
     ],
 ];

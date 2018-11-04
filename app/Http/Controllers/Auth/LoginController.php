@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Services\FacebookLoginService;
 use Facebook\Facebook;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +25,7 @@ class LoginController extends Controller
 
     /**
      * LoginController constructor.
+     * @param Facebook $fb
      */
     public function __construct(Facebook $fb)
     {
@@ -68,6 +69,7 @@ class LoginController extends Controller
             'pages_messaging_phone_number',
             'read_page_mailboxes',
             'manage_pages',
+            'groups_access_member_info',
             'pages_messaging_subscriptions',
         ])->redirect();
     }

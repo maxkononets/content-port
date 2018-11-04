@@ -14,7 +14,7 @@ class CreateGroupUserCategoryPivotTable extends Migration
     public function up()
     {
         Schema::create('group_user_category', function (Blueprint $table) {
-            $table->integer('group_id')->unsigned()->index();
+            $table->bigInteger('group_id')->unsigned()->index();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->integer('user_category_id')->unsigned()->index();
             $table->foreign('user_category_id')->references('id')->on('user_categories')->onDelete('cascade');
