@@ -10,4 +10,13 @@ jQuery(function ($) {
             'color':'green'
         });
     });
+
+    $('.attachment-checkbox').css({
+        'aligin' : 'center  '
+    }).click(function() {
+        $( this ).css({
+            'background':'#56f442',
+            'padding' : '6px'
+        })
+    });
 });

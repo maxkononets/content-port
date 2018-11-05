@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Providers\Categoriable;
 use Illuminate\Database\Eloquent\Model;
 
-class CustomCategory extends Model
+class CustomCategory extends Model implements Categoriable
 {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

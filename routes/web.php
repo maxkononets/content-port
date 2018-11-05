@@ -14,12 +14,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
@@ -44,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/group/store', 'GroupController@storeGroup')->name('store.group');
     Route::get('/group/delete/{group}', 'GroupController@destroyGroup')->name('group.destroy');
     Route::get('/group/disable/{group}', 'GroupController@disableGroup')->name('group.disable');
+    Route::get('/group/refresh', 'GroupController@refreshGroup')->name('group.list.refresh');
 
     Route::get('/search/content', 'CategoryController@searchContent')->name('search.content');
     Route::post('/category', 'CategoryController@storeCategory')->name('store.category');

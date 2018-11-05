@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupsTable extends Migration
+class AddTokenToGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->bigInteger('id')->unsigned()->index();
-            $table->primary('id');;
-            $table->string('name');
-            $table->string('link');
-            $table->timestamps();
+        Schema::table('groups', function(Blueprint $table) {
+            $table->string('token')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::table('groups', function(Blueprint $table) {
+            $table->dropColumn('token');
+        });
     }
 }

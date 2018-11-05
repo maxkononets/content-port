@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Services\FacebookLoginService;
+use Facebook\Facebook;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -19,49 +20,69 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+    public $fb;
+    public $facebookLoginService;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * LoginController constructor.
+     * @param Facebook $fb
      */
-    public function __construct()
+    public function __construct(Facebook $fb)
     {
+        $this->fb = $fb;
         $this->middleware('guest')->except('logout');
+        $this->facebookLoginService = new FacebookLoginService();
     }
 
     /**
-     * Redirect the user to the Facebook authentication page.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function redirectToFacebookProvider()
     {
         return Socialite::driver('facebook')->scopes([
-            ])->redirect();
+            'user_hometown',
+            'user_posts',
+            'user_age_range',
+            'user_likes',
+            'user_status',
+            'user_link',
+            'user_tagged_places',
+            'user_friends',
+            'user_location',
+            'user_videos',
+            'user_gender',
+            'user_photos',
+            'email',
+            'user_age_range',
+            'user_birthday',
+            'user_events',
+            'ads_management',
+            'pages_manage_cta',
+            'pages_show_list',
+            'ads_read',
+            'pages_manage_instant_articles',
+            'publish_pages',
+            'business_management',
+            'pages_messaging',
+            'publish_to_groups',
+            'groups_access_member_info',
+            'pages_messaging_phone_number',
+            'read_page_mailboxes',
+            'manage_pages',
+            'groups_access_member_info',
+            'pages_messaging_subscriptions',
+        ])->redirect();
     }
 
     /**
-     * Obtain the user information from Facebook.
-     *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function handleProviderFacebookCallback()
     {
-        $auth_user = Socialite::driver('facebook')->user();
-
-        $user = User::updateOrCreate(
-            [
-                'email' => $auth_user->email
-            ],
-            [
-                'token' => $auth_user->token,
-                'name'  =>  $auth_user->name,
-                'password' => bcrypt(str_random(20))
-            ]
-        );
+        $authUser = Socialite::driver('facebook')->user();
+        $user = $this->facebookLoginService->createOrUpdateUser($authUser);
 
         Auth::login($user, true);
-        return redirect()->to('/'); // Redirect to a secure page
+        return redirect()->to('/');
     }
 }

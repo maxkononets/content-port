@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     protected $fillable = [
+        'id',
         'name',
         'link',
+        'token',
     ];
 
     /**
@@ -25,5 +27,15 @@ class Group extends Model
     public function facebookAccounts()
     {
         return $this->belongsToMany('App\FacebookAccount');
+    }
+
+    /**
+     * @param Group $group
+     * @return mixed
+     */
+    public function busyTime(Group $group)
+    {
+        $schedulePosts = SchedulePost::where('group_id', '=', $group->id)->pluck('date_to_post');
+        return $schedulePosts;
     }
 }

@@ -54,6 +54,10 @@
                         <br>
                     @endforeach
                     <label for="images">Add images</label>
+                        <!-- Button trigger image modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imageModal">
+                            image gallery
+                        </button>
                     <input type="file" accept=".jpeg,.png,.jpg,.gif" name="images[]" multiple>
                 </div>
                 <div>
@@ -63,10 +67,74 @@
                         <br>
                     @endforeach
                     <label for="videos">Add videos</label>
-                    <input type="file" accept="video/*" name="videos[]" multiple>
+                        <!-- Button trigger video modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#videoModal">
+                            video gallery
+                        </button>
+                        <input type="file" accept="video/*" name="videos[]" multiple>
                 </div>
                 <button>Edit</button>
             </form>
         </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yours image gallery</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row justify-content-around">
+                            @foreach($gallery['images'] as $item)
+                                <div class="col-md-4 control-label">
+                                    <img class="attachment-checkbox img-responsive center-block" value="{{$item->attachments->first()->id}}" width="120" height="120" src="https://cs10.pikabu.ru/post_img/big/2018/07/18/4/1531889898156631317.jpg" alt="">
+                                    {{--<span class="attachment-checkbox" value="{{$item->attachments->first()->id}}">--}}
+                                        {{--{{$item->name}}--}}
+                                    {{--</span>--}}
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yours video gallery</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @foreach($gallery['videos'] as $item)
+                                <div class="col-md-6">
+                                    {{$item->name}}
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 @endsection

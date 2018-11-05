@@ -19,7 +19,7 @@ abstract class AttachmentFile extends Model
         $className = strtolower(substr(strrchr(get_called_class(), "\/"), 1));
         $name = $attachment->getClientOriginalName();
         $size = $attachment->getSize();
-        $route = $attachment->store('attachments/' . $className);
+        $route = '/storage/' . $attachment->store('attachments/' . $className);
         $instance = new static();
         $instance->fill([
             'name' => $name,
