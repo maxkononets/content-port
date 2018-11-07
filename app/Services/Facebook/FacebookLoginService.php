@@ -6,26 +6,38 @@
  * Time: 19:06
  */
 
-namespace App\Services;
+namespace App\Services\Facebook;
 
+use App\Services\Group\GroupService;
 use App\User;
 
 class FacebookLoginService
 {
+    public $groupService;
+
+    /**
+     * FacebookLoginService constructor.
+     * @param GroupService $groupService
+     */
+    public function __construct(GroupService $groupService)
+    {
+        $this->groupService = $groupService;
+    }
 
     /**
      * @param $authUser
      * @return User
+     * @throws \Facebook\Exceptions\FacebookSDKException
      */
     public function createOrUpdateUser($authUser): User
     {
         $user = User::updateOrCreate(
             [
-                'email' => $authUser->email
+                'email' => $authUser->email,
             ],
             [
                 'name' => $authUser->name,
-                'password' => bcrypt(str_random(20))
+                'password' => bcrypt(str_random(20)),
             ]);
 
         return $this->createOrUpdateFbAccount($user, $authUser);
@@ -35,12 +47,13 @@ class FacebookLoginService
      * @param User $user
      * @param $fbAccountData
      * @return User
+     * @throws \Facebook\Exceptions\FacebookSDKException
      */
     public function createOrUpdateFbAccount(User $user, $fbAccountData): User
     {
         $user->facebookAccounts()->updateOrCreate(
             [
-                'id' => (int)$fbAccountData->id
+                'id' => (int)$fbAccountData->id,
             ],
             [
                 'name' => $fbAccountData->name,
@@ -48,8 +61,7 @@ class FacebookLoginService
                 'token' => $fbAccountData->token,
             ]);
 
-        $groupService = new GroupService();
-        $groupService->addGroupsFromFbAccount($fbAccountData->id);
+        $this->groupService->addGroupsFromFbAccount($fbAccountData->id);
 
         return $user;
     }

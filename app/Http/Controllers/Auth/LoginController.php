@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\FacebookLoginService;
+use App\Services\Facebook\FacebookLoginService;
 use Facebook\Facebook;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -26,12 +26,13 @@ class LoginController extends Controller
     /**
      * LoginController constructor.
      * @param Facebook $fb
+     * @param FacebookLoginService $facebookLoginService
      */
-    public function __construct(Facebook $fb)
+    public function __construct(Facebook $fb, FacebookLoginService $facebookLoginService)
     {
         $this->fb = $fb;
         $this->middleware('guest')->except('logout');
-        $this->facebookLoginService = new FacebookLoginService();
+        $this->facebookLoginService = $facebookLoginService;
     }
 
     /**
@@ -76,6 +77,7 @@ class LoginController extends Controller
 
     /**
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Facebook\Exceptions\FacebookSDKException
      */
     public function handleProviderFacebookCallback()
     {

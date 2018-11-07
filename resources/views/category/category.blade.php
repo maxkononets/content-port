@@ -18,14 +18,15 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="category" value="{{ $category->id }}">
                 <label for="link">Add group on link:</label>
-                <input id="link" type="url" name="link">
+                <input id="link" type="text" name="link">
                 <button>add</button>
             </form>
             @if($errors->has('link'))
                 <div style="color: orange">{{ $errors->first('link') }}</div>
             @endif
             @foreach($groups as $group)
-                <p>{{$group->name}} |{{$group->link}}
+                <p>
+                    <a href="{{$group->link}}">{{$group->name}}</a>
                     <a href="{{route('group.destroy', ['group' => $group])}}" style="color: red">X</a>
                 </p>
             @endforeach
