@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function newPost()
     {
-        $adminGroups = Auth::user()->adminGroups();
+        $adminGroups = Auth::user()->adminGroups(true);
         $gallery = Attachment::getOwnerAttachments(Auth::user());
 
         return view('newpost', [
@@ -45,7 +45,7 @@ class PostController extends Controller
     {
         $attachments = Attachment::getOwnerAttachments($post);
         $gallery = Attachment::getOwnerAttachments(Auth::user());
-        $adminGroups = Auth::user()->adminGroups();
+        $adminGroups = Auth::user()->adminGroups(true);
         return view('schedule.update', [
                 'post' => $post,
                 'admin_groups' => $adminGroups,
