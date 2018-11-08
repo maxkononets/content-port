@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 class GroupService
 {
-    const LENGTH_GROUP_ID = 15;
     public $fb;
 
     /**
@@ -45,7 +44,7 @@ class GroupService
     }
 
     /**
-     *
+     *Add moderation group from facebook account
      *
      * @param $facebookAccountId
      * @throws FacebookSDKException
@@ -54,16 +53,30 @@ class GroupService
     {
         $facebookAccount = FacebookAccount::find($facebookAccountId);
 
-        $response = $this->fb->get(
+        $responsePages = $this->fb->get(
             '/' . $facebookAccount->id . '/accounts',
             $facebookAccount->token
-        );
+        )->getDecodedBody();
 
-        $groups = collect(json_decode($response->getBody(), true)['data']);
+        $responseGroups = $this->fb->get(
+            '/me?fields=groups{name,administrator}',
+            $facebookAccount->token
+        )->getDecodedBody();
 
-        $groups->map(function ($groupData) use (&$facebookAccount) {
+        $pages = $responsePages['data'];
+        $groups = [];
+
+        foreach ($responseGroups['groups']['data'] as $item){
+            if ($item['administrator']){
+                array_push($groups, $item);
+            }
+        }
+
+        $entities = array_merge($groups, $pages);
+
+        array_map(function ($groupData) use (&$facebookAccount) {
             $this->updateOrCreateGroup($groupData, $facebookAccount);
-        });
+        }, $entities);
     }
 
     /**
@@ -87,7 +100,7 @@ class GroupService
     {
         $facebookAccount = Auth::user()->facebookAccounts->first();
 
-        if (!preg_match('/\d{' . self::LENGTH_GROUP_ID . '}/', $link, $output_array)) {
+        if (!preg_match('/\d{15,16}/', $link, $output_array)) {
             $output_array = explode('facebook.com/groups/', $link);
             $output_array = explode('/', $output_array[1]);
         };
