@@ -176,7 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FacebookServiceProvider::class,
-        App\Providers\GroupServiceProvider::class,
+        //App\Providers\GroupServiceProvider::class,
 
     ],
 
@@ -229,5 +229,6 @@ return [
         'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
         'Facebook' => App\Providers\FacebookServiceProvider::class,
         'GroupService' => App\Providers\GroupServiceProvider::class,
+        'PostService'
     ],
 ];

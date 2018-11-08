@@ -7,6 +7,8 @@ use App\Group;
 use App\Http\Requests\SchedulePostRequest;
 use App\SchedulePost;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Facebook\FacebookPostService;
+
 
 class PostController extends Controller
 {
@@ -96,5 +98,26 @@ class PostController extends Controller
 
         $post->save();
         return back();
+    }
+
+    public function sendPost(FacebookPostService $postService)
+    {
+        $type_group= 'group';
+        $page_id = '247602792769474';
+        $post = [
+            'message' => 'Теперь тут снова котики',
+            'link' => 'https://i.ytimg.com/vi/M-XtB0R3ri4/maxresdefault.jpg'
+        ];
+        $facebookAccountId='2382322111841676';
+
+        switch ($type_group) {
+            case 'page':
+                $postService->publishToPages($page_id,$post,$facebookAccountId);
+                break;
+            case 'group':
+                $postService->publishToGroup($page_id,$post,$facebookAccountId);
+        }
+        dd($postService);
+
     }
 }
