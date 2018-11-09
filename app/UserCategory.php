@@ -19,4 +19,12 @@ class UserCategory extends Model implements Categoriable
     {
         return $this->belongsToMany('App\Group');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

@@ -134,6 +134,7 @@ class GroupService
                 'link' => $groupLink,
                 'token' => $token,
             ]);
+        $instance->user->groups()->syncWithoutDetaching($groupData['id']);
         $instance->groups()->syncWithoutDetaching([$groupData['id']]);
     }
 }

@@ -51,8 +51,11 @@ class GroupController extends Controller
      */
     public function disableGroup(Group $group)
     {
-        $group->condition = (int)!$group->condition;
-        $group->save();
+        $groupCondition = $group->groupConditions()->
+                where('user_id', Auth::id())->get()->first();
+        $groupCondition->update([
+            'condition' => (int)!$groupCondition->condition
+        ]);
         return back();
     }
 
