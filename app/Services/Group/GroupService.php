@@ -113,7 +113,10 @@ class GroupService
             $facebookAccount->token
         );
 
-        return json_decode($groupData->getBody(), true);
+        $decodeData = json_decode($groupData->getBody(), true);
+        $decodeData += isset($decodeData['privacy']) ? ['type' => 'group'] : ['type' => 'page'];
+
+        return $decodeData;
     }
 
     /**
