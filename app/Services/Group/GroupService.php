@@ -63,14 +63,15 @@ class GroupService
             $facebookAccount->token
         )->getDecodedBody();
 
-        $pages = $responsePages['data'];
-        $groups = [];
+        $pages = array_map(function ($page){
+            return $page + ['type' => 'page'];
+        }, $responsePages['data']);
 
-        foreach ($responseGroups['groups']['data'] as $item){
-            if ($item['administrator']){
-                array_push($groups, $item);
+        $groups = array_map(function ($group){
+            if ($group['administrator']){
+                return $group + ['type' => 'group'];
             }
-        }
+        }, $responseGroups['groups']['data']);
 
         $entities = array_merge($groups, $pages);
 
@@ -133,6 +134,7 @@ class GroupService
                 'name' => $groupData['name'],
                 'link' => $groupLink,
                 'token' => $token,
+                'type' => $groupData['type'],
             ]);
         $instance->user->groups()->syncWithoutDetaching($groupData['id']);
         $instance->groups()->syncWithoutDetaching([$groupData['id']]);

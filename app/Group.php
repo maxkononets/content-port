@@ -11,6 +11,7 @@ class Group extends Model
         'name',
         'link',
         'token',
+        'type',
     ];
 
     /**
