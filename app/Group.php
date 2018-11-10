@@ -11,6 +11,7 @@ class Group extends Model
         'name',
         'link',
         'token',
+        'type',
     ];
 
     /**
@@ -37,5 +38,21 @@ class Group extends Model
     {
         $schedulePosts = SchedulePost::where('group_id', '=', $group->id)->pluck('date_to_post');
         return $schedulePosts;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groupConditions()
+    {
+        return $this->hasMany('App\GroupCondition');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'group_conditions', 'group_id', 'user_id');
     }
 }

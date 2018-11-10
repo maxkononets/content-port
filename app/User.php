@@ -55,16 +55,30 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany('App\Group', 'group_conditions', 'user_id', 'group_id');
+    }
+
+    /**
      * @param bool $condition
      * @return array
      */
     public function adminGroups(bool $condition = false)
     {
         $groups = [];
-        $accounts = FacebookAccount::all()->where('user_id', '=', $this->id);
+        $accounts = $this->facebookAccounts;
         foreach ($accounts as $account) {
-            $groupsAccount = $condition ? $account->groups()->where('condition', $condition)->get() : $account->groups;
-            foreach ($groupsAccount as $group) {
+            $accountGroups = $condition ?
+                $account->groups()->
+                        join('group_conditions', 'groups.id', '=', 'group_conditions.group_id')->
+                        select('groups.*', 'group_conditions.condition')->
+                        where('condition', '=', $condition)->
+                        get() :
+                $account->groups;
+            foreach ($accountGroups as $group) {
                     array_push($groups, $group);
             }
         }
