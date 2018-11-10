@@ -176,7 +176,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FacebookServiceProvider::class,
-        App\Providers\GroupServiceProvider::class,
 
     ],
 
@@ -228,6 +227,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
         'Facebook' => App\Providers\FacebookServiceProvider::class,
-        'GroupService' => App\Providers\GroupServiceProvider::class,
     ],
 ];

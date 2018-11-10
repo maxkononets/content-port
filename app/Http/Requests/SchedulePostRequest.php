@@ -33,9 +33,9 @@ class SchedulePostRequest extends FormRequest
     {
         return [
             'text' => 'required|max:500',
-            'date' => 'required|after:yesterday',
+            'date' => 'required_with:time|nullable|after:yesterday',
             'time' => (function () {
-                $time = 'required';
+                $time = 'required_with:date|nullable';
                 if ($this->request->all()['date'] == date('Y-m-d')) {
                     $time .= '|after:now';
                 }
