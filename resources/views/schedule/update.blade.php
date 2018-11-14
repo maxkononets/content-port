@@ -4,7 +4,7 @@
     <div style="margin: auto; width: 40%">
         <div>
             <h1>Edit post</h1>
-            <form method="post" action="{{route('post.edit', ['post' => $post])}}" enctype="multipart/form-data">
+            <form id="edit-post-form" method="post" action="{{route('post.edit', ['post' => $post])}}" enctype="multipart/form-data">
 
                 <input type="hidden" name="_method" value="PUT"/>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -26,7 +26,7 @@ class PublishPost implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param SchedulePost $schedulePost
      */
     public function __construct(SchedulePost $schedulePost)
     {
@@ -35,12 +35,12 @@ class PublishPost implements ShouldQueue
         $this->text = $schedulePost->text;
         $this->images = $schedulePost->attachments()
             ->where('entity_type', Image::class)->get()->map(function ($attachment) {
-            return Request::root() . $attachment->entity->route;
-        });
+                return Request::root() . $attachment->entity->route;
+            });
         $this->videos = $schedulePost->attachments()
             ->where('entity_type', Video::class)->get()->map(function ($attachment) {
-            return Request::root() . $attachment->entity->route;
-        });
+                return Request::root() . $attachment->entity->route;
+            });
     }
 
     /**

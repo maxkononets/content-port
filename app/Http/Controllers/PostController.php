@@ -7,6 +7,8 @@ use App\Group;
 use App\Http\Requests\SchedulePostRequest;
 use App\SchedulePost;
 use App\Services\Post\SchedulePostService;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -42,8 +44,12 @@ class PostController extends Controller
      * @param SchedulePost $post
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function update(schedulePost $post)
+    public function update(schedulePost $post, Request $request)
     {
+        $post->publication_time = new Carbon($post->publication_time);
+        $post->publication_time->setTimezone($request->timezone);
+        $post->date = $post->publication_time->toDateString();
+        $post->time = $post->publication_time->toTimeString();
         $attachments = Attachment::getOwnerAttachments($post);
         $gallery = Attachment::getOwnerAttachments(Auth::user());
         $adminGroups = Auth::user()->adminGroups(true);

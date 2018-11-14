@@ -10,11 +10,17 @@
                 <div>
                     <p>{{$post->text}}</p>
                     <p>{{$post->date}} {{$post->time}}</p>
-                    <a href="{{route('post.update', ['post' => $post])}}">Edit</a>
+                    <button form="edit-post">Edit</button>
                     <a style="color: red;" href="{{route('post.destroy', ['post' => $post])}}">delete</a>
+                </div>
+                <div>
+                    <form id="edit-post" method="post" action="{{route('post.update', ['post' => $post])}}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
                 </div>
                 <br>
             @endforeach
         </div>
     </div>
+
 @endsection

@@ -8,46 +8,48 @@
 
 namespace App\Services\Post;
 
-
 use App\Attachment;
 use App\Group;
-use App\Jobs\PublishPost;
 use App\SchedulePost;
+use Carbon\Carbon;
 
 class SchedulePostService
 {
     /**
      * store created or updated post
      *
-     * @param $postFields
+     * @param $request
      * @param SchedulePost $post
      * @return SchedulePost
      */
-    public function store($postFields, SchedulePost $post)
+    public function store($request, SchedulePost $post)
     {
+        $postFields = $this->prepareTime($request);
         $post->fill($postFields->all())->save();
-        Group::find($postFields->group_id)->schedulePosts()->save($post);
-
+        Group::find($postFields['group_id'])->schedulePosts()->save($post);
         Attachment::store($postFields, $post);
-
-        $this->makeJob($post);
         return $post;
     }
 
     /**
-     * add PublishPost job
+     * finds the difference in user time and publication time and assigns the publication date to the time zone of the server
      *
-     * @param SchedulePost $post
+     * @param $requestFields
+     * @return mixed
      */
-    public function makeJob(SchedulePost $post)
+    protected function prepareTime($requestFields)
     {
-        if (!($post->date && $post->time)) {
-            $time = now();
-        } else {
-            $time = strtotime($post->date . '' . $post->time);
-        }
+        $userTime = new Carbon('', $requestFields['timezone']);
 
-        PublishPost::dispatch($post)->delay($time);
-        return;
+        if (is_null($requestFields['time']) || is_null($requestFields['date'])) {
+            $requestFields['publication_time'] = Carbon::now();
+        } else {
+            $userTimeToPost = new Carbon($requestFields['date'] . ' ' . $requestFields['time'], $requestFields['timezone']);
+            $diffTimeToPost = $userTime->diffInSeconds($userTimeToPost);
+            $timeToPost = new Carbon();
+            $timeToPost->addSeconds($diffTimeToPost);
+            $requestFields['publication_time'] = $timeToPost;
+        }
+        return $requestFields;
     }
 }

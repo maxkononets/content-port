@@ -8,8 +8,7 @@ class SchedulePost extends Model
 {
     protected $fillable = [
         'text',
-        'date',
-        'time',
+        'publication_time',
         'group_id',
     ];
 
