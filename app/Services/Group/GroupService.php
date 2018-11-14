@@ -73,7 +73,9 @@ class GroupService
             }
         }, $responseGroups['groups']['data']);
 
-        $entities = array_merge($groups, $pages);
+        $entities = array_merge(
+            array_filter($groups),
+            array_filter($pages));
 
         array_map(function ($groupData) use (&$facebookAccount) {
             $this->updateOrCreateGroup($groupData, $facebookAccount);
