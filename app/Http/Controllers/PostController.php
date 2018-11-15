@@ -102,22 +102,17 @@ class PostController extends Controller
 
     public function sendPost(FacebookPostService $postService)
     {
-        $type_group= 'group';
-        $page_id = '247602792769474';
+        $type_group= 'page';
+        $page_id = '2375351699408980';
         $post = [
             'message' => 'Теперь тут снова котики',
-            'link' => 'https://i.ytimg.com/vi/M-XtB0R3ri4/maxresdefault.jpg'
+            'link' => 'https://i.ytimg.com/vi/JaciHAcvlyA/hqdefault.jpg'
         ];
         $facebookAccountId='2382322111841676';
 
-        switch ($type_group) {
-            case 'page':
-                $postService->publishToPages($page_id,$post,$facebookAccountId);
-                break;
-            case 'group':
-                $postService->publishToGroup($page_id,$post,$facebookAccountId);
-        }
-        dd($postService);
+
+                $postService->publishToPages($page_id, $post, $facebookAccountId);
+                dd($postService);
 
     }
 }

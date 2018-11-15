@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Group;
 use App\Image;
 use App\SchedulePost;
+use App\Services\Facebook\FacebookPostService;
 use App\Video;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -12,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\PostController;
 
 class PublishPost implements ShouldQueue
 {
@@ -22,6 +24,7 @@ class PublishPost implements ShouldQueue
     protected $text;
     protected $images;
     protected $videos;
+    protected $type_group;
 
     /**
      * Create a new job instance.
@@ -41,6 +44,11 @@ class PublishPost implements ShouldQueue
             ->where('entity_type', Video::class)->get()->map(function ($attachment) {
             return Request::root() . $attachment->entity->route;
         });
+        $this->post =
+            [
+                'text'=> $this->text,
+                'link'=> $this->images
+            ];
     }
 
     /**
@@ -48,8 +56,9 @@ class PublishPost implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(FacebookPostService $postService)
     {
-        //TODO: call send_post method
+        $postService->sendPost($this->type_group,$this->groupId,$this->post,$this->facebookId);
+
     }
 }
