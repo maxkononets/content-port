@@ -27,7 +27,7 @@
             @foreach($groups as $group)
                 <p>
                     <a href="{{$group->link}}">{{$group->name}}</a>
-                    <a href="{{route('group.destroy', ['group' => $group])}}" style="color: red">X</a>
+                    <a href="{{route('group.destroy', ['group' => $group, 'category' => $category->id])}}" style="color: red">X</a>
                 </p>
             @endforeach
         </div>

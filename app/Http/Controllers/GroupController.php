@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Http\Requests\StoreGroupRequest;
 use App\Services\Group\GroupService;
+use App\UserCategory;
 use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
@@ -36,12 +37,12 @@ class GroupController extends Controller
 
     /**
      * @param Group $group
+     * @param UserCategory $category
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
      */
-    public function destroyGroup(Group $group)
+    public function destroyGroup(Group $group, UserCategory $category)
     {
-        $group->delete();
+        $category->groups()->detach($group);
         return back();
     }
 
