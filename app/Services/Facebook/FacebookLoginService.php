@@ -36,6 +36,7 @@ class FacebookLoginService
                 'email' => $authUser->email,
             ],
             [
+                'avatar' => $authUser->avatar,
                 'name' => $authUser->name,
                 'password' => bcrypt(str_random(20)),
             ]);
