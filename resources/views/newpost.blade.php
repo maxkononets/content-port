@@ -3,7 +3,7 @@
 @section('content')
     <div style="margin: auto; width: 40%">
         <h1>New post</h1>
-        <form method="post" action="{{route('post.store')}}" enctype="multipart/form-data">
+        <form  id="edit-post-form" method="post" action="{{route('post.store')}}" enctype="multipart/form-data">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

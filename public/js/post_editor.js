@@ -19,4 +19,13 @@ jQuery(function ($) {
             'padding' : '6px'
         })
     });
+
+    inputElem = $('<input>').attr({
+        type: 'hidden',
+        name: 'timezone',
+        value: Intl.DateTimeFormat().resolvedOptions().timeZone
+    });
+
+    inputElem.appendTo('form#edit-post');
+    inputElem.appendTo('form#edit-post-form');
 });

@@ -227,6 +227,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
         'Facebook' => App\Providers\FacebookServiceProvider::class,
-
     ],
 ];

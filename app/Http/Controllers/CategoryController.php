@@ -32,7 +32,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param Request $name
+     * @param StoreCategoryRequest $name
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function storeCategory(StoreCategoryRequest $name)
@@ -52,6 +52,7 @@ class CategoryController extends Controller
      */
     public function destroy(UserCategory $category)
     {
+        $category->groups()->detach();
         $category->delete();
         return back();
     }

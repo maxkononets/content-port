@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Group;
 use App\Image;
 use App\SchedulePost;
-use App\Services\Facebook\FacebookPostService;
 use App\Video;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +12,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Request;
-use App\Http\Controllers\PostController;
 
 class PublishPost implements ShouldQueue
 {
@@ -24,12 +22,11 @@ class PublishPost implements ShouldQueue
     protected $text;
     protected $images;
     protected $videos;
-    protected $type_group;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param SchedulePost $schedulePost
      */
     public function __construct(SchedulePost $schedulePost)
     {
@@ -38,17 +35,12 @@ class PublishPost implements ShouldQueue
         $this->text = $schedulePost->text;
         $this->images = $schedulePost->attachments()
             ->where('entity_type', Image::class)->get()->map(function ($attachment) {
-            return Request::root() . $attachment->entity->route;
-        });
+                return Request::root() . $attachment->entity->route;
+            });
         $this->videos = $schedulePost->attachments()
             ->where('entity_type', Video::class)->get()->map(function ($attachment) {
-            return Request::root() . $attachment->entity->route;
-        });
-        $this->post =
-            [
-                'text'=> $this->text,
-                'link'=> $this->images
-            ];
+                return Request::root() . $attachment->entity->route;
+            });
     }
 
     /**
@@ -56,9 +48,8 @@ class PublishPost implements ShouldQueue
      *
      * @return void
      */
-    public function handle(FacebookPostService $postService)
+    public function handle()
     {
-        $postService->sendPost($this->type_group,$this->groupId,$this->post,$this->facebookId);
-
+        //TODO: call send_post method
     }
 }
