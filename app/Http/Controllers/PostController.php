@@ -101,8 +101,6 @@ class PostController extends Controller
     public function storeSchedulePost(SchedulePostRequest $request, SchedulePostService $postService, SchedulePost $schedulePost)
     {
         $postService->store($request, $schedulePost);
-
-        PublishPost::dispatch($schedulePost)->delay(Carbon::now());
         return back();
     }
 
