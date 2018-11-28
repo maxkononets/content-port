@@ -27,7 +27,6 @@ Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderFacebo
 Route::middleware('auth')->group(function () {
     Route::get('/profile', 'ProfileController@index')->name('profile');
     Route::get('/secure', 'ProfileController@secure')->name('secure');
-    Route::get('/sendpost', 'PostController@sendPost');
     Route::get('/newpost', 'PostController@newPost')->name('new.post');
     Route::get('/schedule/group/{group}', 'PostController@showScheduledPostsGroup')->name('schedule.post');
     Route::get('/post/delete/{post}', 'PostController@destroyPost')->name('post.destroy');

@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Facebook\FacebookPostService;
+use App\Jobs\PublishPost;
 
 
 class PostController extends Controller
@@ -60,7 +61,7 @@ class PostController extends Controller
                 'admin_groups' => $adminGroups,
             ] + $attachments + [
                 'gallery' => $gallery,
-                ]
+            ]
         );
     }
 
@@ -100,22 +101,9 @@ class PostController extends Controller
     public function storeSchedulePost(SchedulePostRequest $request, SchedulePostService $postService, SchedulePost $schedulePost)
     {
         $postService->store($request, $schedulePost);
+
+        PublishPost::dispatch($schedulePost)->delay(Carbon::now());
         return back();
     }
 
-    public function sendPost(FacebookPostService $postService)
-    {
-        $type_group= 'page';
-        $page_id = '2375351699408980';
-        $post = [
-            'message' => 'Теперь тут снова котики',
-            'link' => 'https://i.ytimg.com/vi/JaciHAcvlyA/hqdefault.jpg'
-        ];
-        $facebookAccountId='2382322111841676';
-
-
-                $postService->publishToPages($page_id, $post, $facebookAccountId);
-                dd($postService);
-
-    }
 }

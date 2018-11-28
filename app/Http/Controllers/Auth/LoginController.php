@@ -72,6 +72,7 @@ class LoginController extends Controller
             'manage_pages',
             'groups_access_member_info',
             'pages_messaging_subscriptions',
+            'publish_video',
         ])->redirect();
     }
 

@@ -33,48 +33,36 @@ class FacebookPostService
     }
 
 
-    public function sendPost($type_group, $page_id, $post, $facebookAccountId)
+    public function sendFBPost($type_group,
+                             $page_id,
+                             $text,
+                             $images,
+                             $videos,
+                             $facebookAccountId)
     {
-
+        info($type_group);
         switch ($type_group) {
 
             case 'page':
                 $token = $this->getPageToken($page_id, $facebookAccountId);
-                $endpoint='accounts';
+
 
                 break;
             case 'group':
                 $token = FacebookAccount::find($facebookAccountId)->token;
-                $endpoint='feed';
+
         }
 
-        if(isset($post->videos))
-        {
-            $endpoint = 'videos';
-        }
-
-        $this->publishPost($page_id,$endpoint,$post,$token);
-
+       if(isset($videos))
+       {
+           $this->publishVideo($page_id, $text, $videos, $token);
+       }
+       else {
+           $this->publishPost($page_id, $text, $images, $token);
+       }
     }
 
-    public function publishToGroup($page_id, $post, $facebookAccountId)
-    {
-        $facebookAccount = FacebookAccount::find($facebookAccountId);
 
-       // dd($facebookAccount->token);
-        try {
-            $request = $this->fb->post('/' . $page_id . '/feed',
-                $post,
-                $facebookAccount->token);
-
-            $request = $request->getGraphNode()->asArray();
-
-          dd ($request);
-
-        } catch (FacebookSDKException $e) {
-            dd($e); // handle exception
-        }
-    }
 
     public function getPageToken($page_id, $facebookAccountId)
     {
@@ -83,61 +71,78 @@ class FacebookPostService
             $request= $this->fb->get('/' . $page_id . '/?fields=access_token',
                 $facebookAccount->token)->getDecodedBody();
             $page_token=$request['access_token'];
-            Return $page_token;
+            return $page_token;
         } catch (FacebookSDKException $e) {
-            dd($e); // handle exception
         }
 
     }
 
-
-    public function publishToPages($page_id, $post, $facebookAccountId)
+    public function uploadPhotoToFB($images, $page_id,$token)
     {
+        $photoIdArray = array();
+        foreach($images as $photoURL) {
+            $params = array(
+                "url" =>$photoURL,
+                "published" => false
+            );
+            try {
+                $postResponse = $this->fb->post('/' . $page_id . '/photos', $params, $token);
+                $photoId = $postResponse->getDecodedBody();
+                if (!empty($photoId["id"])) {
+                    $photoIdArray[] = $photoId["id"];
+                }
+            } catch (FacebookResponseException $e) {
+                exit();
+            } catch (FacebookSDKException $e) {
 
-        try {
-            $request = $this->fb->post('/' . $page_id . '/accounts',
-                $post,
-                $this->getPageToken($page_id, $facebookAccountId));
-
-            $request = $request->getGraphNode()->asArray();
-            dd ($request);
-
-        } catch (FacebookSDKException $e) {
-            dd($e); // handle exception
+                exit();
+            }
         }
+        return $photoIdArray;
 
     }
-
-    public function publishVideo ()
+    public function publishVideo ($page_id,$text, $videos, $token)
     {
+        info($videos);
+        $post = array(
+          'description' => $text,
+          'source' => $this->fb->videoToUpload(implode($videos))
+        );
         try {
             $request = $this->fb->post('/' . $page_id . '/videos',
                 $post,
                 $token);
 
             $request = $request->getGraphNode()->asArray();
-            dd ($request);
+            info ($request);
 
         } catch (FacebookSDKException $e) {
-            dd($e); // handle exception
+
         }
 
     }
 
-    public function publishPost($page_id, $endpoint, $post, $token)
+
+
+    public function publishPost($page_id,$text, $images, $token)
     {
+        $images_id = $this->uploadPhotoToFB($images,$page_id,$token);
+
+        $post =array('message' => $text);
+
+            foreach ($images_id as $k=>$image) {
+                $post['attached_media'][$k] = '{"media_fbid":"' . $image . '"}';
+    };
         try {
-            $request = $this->fb->post('/' . $page_id . '/' . $endpoint,
+            $request = $this->fb->post('/' . $page_id . '/feed',
                 $post,
                 $token);
 
             $request = $request->getGraphNode()->asArray();
-            dd ($request);
 
         } catch (FacebookSDKException $e) {
-            dd($e); // handle exception
+
         }
 
     }
-
 }
