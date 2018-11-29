@@ -10,6 +10,9 @@ use App\Services\Post\SchedulePostService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Facebook\FacebookPostService;
+use App\Jobs\PublishPost;
+
 
 class PostController extends Controller
 {
@@ -58,7 +61,7 @@ class PostController extends Controller
                 'admin_groups' => $adminGroups,
             ] + $attachments + [
                 'gallery' => $gallery,
-                ]
+            ]
         );
     }
 
@@ -100,4 +103,5 @@ class PostController extends Controller
         $postService->store($request, $schedulePost);
         return back();
     }
+
 }

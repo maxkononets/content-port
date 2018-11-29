@@ -17,7 +17,7 @@ class CheckReadinessPost extends Command
      *
      * @var string
      */
-    protected $signature = 'checkreadinesspost';
+   protected $signature = 'checkreadinesspost';
 
     /**
      * The console command description.
@@ -46,5 +46,5 @@ class CheckReadinessPost extends Command
         foreach ($this->posts as $post) {
             PublishPost::dispatch($post)->delay(Carbon::now());
         }
-    }
+  }
 }
