@@ -10,6 +10,7 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
 
 abstract class AttachmentFile extends Model
 {
@@ -24,7 +25,7 @@ abstract class AttachmentFile extends Model
         $instance->fill([
             'name' => $name,
             'size' => $size,
-            'route' => $route,
+            'route' => Request::root() . $route,
         ])->save();
         return $instance;
     }

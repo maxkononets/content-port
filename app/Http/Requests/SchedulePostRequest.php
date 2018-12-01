@@ -40,13 +40,11 @@ class SchedulePostRequest extends FormRequest
             'date' => 'required_with:time|nullable|after:yesterday',
             'time' => (function () use ($userTime, $postTime) {
                 $time = 'required_with:date|nullable';
-                if ($userTime->toDateString() === $postTime->toDateString()) {
+                if ($userTime->toDateString() == $postTime->toDateString()) {
                     $time .= '|after:now';
                 }
                 return $time;
             })(),
-            'images.*' => 'mimes:jpeg,png,jpg,gif|max:2048',
-            'videos.*' => 'mimes:3g2,3gp,3gpp,asf,avi,dat,divx,dv,f4v,flv,gif,m2ts,m4v,mkv,mod,mov,mp4,mpe,mpeg,mpeg4,mpg,mts,nsv,ogm,ogv,qt,tod,ts,vob,wmv|max:20480',
         ];
     }
 }
