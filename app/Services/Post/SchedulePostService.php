@@ -27,7 +27,11 @@ class SchedulePostService
         $postFields = $this->prepareTime($request);
         $post->fill($postFields->all())->save();
         Group::find($postFields['group_id'])->schedulePosts()->save($post);
-        Attachment::store($postFields, $post);
+        Attachment::saveOnIds($post, [
+            'images' => $postFields['images'],
+            'videos' => $postFields['videos'],
+        ]);
+//        Attachment::store($postFields, $post);
         return $post;
     }
 

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Welcome!</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -13,8 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    Go to <a href="{{route('search.content')}}">Content search</a> and find your content.
                 </div>
             </div>
         </div>

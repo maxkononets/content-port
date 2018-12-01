@@ -33,6 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/update/{post}', 'PostController@update')->name('post.update');
     Route::put('/posts/edit/{schedulePost}', 'PostController@editPost')->name('post.edit');
     Route::post('/shedule/post', 'PostController@storeSchedulePost')->name('post.store');
+    Route::post('/store/attachments', 'PostController@storeAttachments')->name('store.attachments');
+    Route::post('/store/attachments/links', 'PostController@storeAttachmentsFromLinks')->name('store.attachments.links');
+    Route::get('/ajax/{entity}/paginate', 'PostController@paginateOfAttachmentEntity')->name('paginate.attachments');
+
 
     Route::get('/attachment/delete/{instance}', 'AttachmentController@destroy')->name('attachment.destroy');
 
@@ -47,4 +51,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/delete/{category}', 'CategoryController@destroy')->name('category.destroy');
     Route::get('/category/{category}', 'CategoryController@showCategory')->name('category.show');
     Route::get('/category/custom/{category}', 'CategoryController@showCustomCategory')->name('custom.category.show');
+    Route::get('/category/user/{category}/get/posts/', 'CategoryController@getPostsUserCategoryJson')->name('user.category.get.posts.json');
+    Route::get('/category/custom/{category}/get/posts/', 'CategoryController@getPostsCustomCategoryJson')->name('custom.category.get.posts.json');
 });

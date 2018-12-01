@@ -63,6 +63,5 @@ use Illuminate\Support\Facades\Request;
             $this->videos,
             $this->facebookId);
         $this->post->delete();
-
     }
 }

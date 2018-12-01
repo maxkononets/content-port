@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Attachment;
 use App\Group;
 use App\Http\Requests\SchedulePostRequest;
+use App\Image;
 use App\SchedulePost;
 use App\Services\Post\SchedulePostService;
+use App\Video;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Facebook\FacebookPostService;
-use App\Jobs\PublishPost;
-
+use MongoDB\Driver\Exception\WriteException;
 
 class PostController extends Controller
 {
@@ -61,7 +62,7 @@ class PostController extends Controller
                 'admin_groups' => $adminGroups,
             ] + $attachments + [
                 'gallery' => $gallery,
-            ]
+                ]
         );
     }
 
@@ -104,4 +105,48 @@ class PostController extends Controller
         return back();
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function storeAttachments(Request $request)
+    {
+        return Attachment::store($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeAttachmentsFromLinks(Request $request)
+    {
+        $data = json_decode($request->all()['attachments'], true);
+        $response = Attachment::storeFromLinks($data);
+        return response()->json($response, 200);
+    }
+
+    /**
+     * Paginate attachments on entity type
+     *
+     * @param $entity
+     * @return mixed
+     */
+    public function paginateOfAttachmentEntity($entity)
+    {
+        switch ($entity) {
+            case 'image':
+                $attachments = Auth::user()->attachments()->where('entity_type', Image::class)->paginate(16);
+                break;
+            case 'video';
+                $attachments = Auth::user()->attachments()->where('entity_type', Video::class)->paginate(16);
+                break;
+        }
+        $attachmentsEntity = $attachments->map(function ($item){
+            return $item->entity;
+        });
+
+        $attachmentsEntity['next'] = $attachments->nextPageUrl();
+
+//        return $attachmentsEntity->toJson();
+    }
 }

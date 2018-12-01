@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Attachment;
 use App\CustomCategory;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Services\Facebook\FacebookPostService;
 use App\UserCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,21 +59,31 @@ class CategoryController extends Controller
         return back();
     }
 
-    public function showCategory(UserCategory $category)
+    public function showCategory(UserCategory $category, FacebookPostService $facebookPostService)
     {
+        $adminGroups = Auth::user()->adminGroups(true);
         $groups = $category->groups;
+        $gallery = Attachment::getOwnerAttachments(Auth::user());
         return view('category.category', [
             'category' => $category,
             'groups' => $groups,
+            'admin_groups' => $adminGroups,
+            'gallery' => $gallery,
         ]);
     }
 
-    public function showCustomCategory(CustomCategory $category)
+    public function showCustomCategory(CustomCategory $category, FacebookPostService $facebookPostService)
     {
-        $groups = $category->groups;
         return view('category.category', [
             'category' => $category,
-            'groups' => $groups,
         ]);
+    }
+
+    public function getPostsCustomCategoryJson(CustomCategory $category, FacebookPostService $facebookPostService){
+        echo json_encode($facebookPostService->getPosts($category), true);
+    }
+
+    public function getPostsUserCategoryJson(UserCategory $category, FacebookPostService $facebookPostService){
+        echo json_encode($facebookPostService->getPosts($category), true);
     }
 }
