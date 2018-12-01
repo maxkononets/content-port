@@ -47,16 +47,13 @@ use Illuminate\Support\Facades\Request;
             })->toArray();
 
         $this->type_group = Group::select()->where('id', '=', $this->groupId)->value('type');
-
+        $this->post = $schedulePost;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+
     public function handle(FacebookPostService $postService)
     {
+
 
         $postService -> sendFBPost(
             $this->type_group,
@@ -65,5 +62,7 @@ use Illuminate\Support\Facades\Request;
             $this->images,
             $this->videos,
             $this->facebookId);
+        $this->post->delete();
+
     }
 }

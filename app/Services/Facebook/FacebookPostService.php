@@ -40,7 +40,7 @@ class FacebookPostService
                              $videos,
                              $facebookAccountId)
     {
-        info($type_group);
+
         switch ($type_group) {
 
             case 'page':
@@ -53,7 +53,7 @@ class FacebookPostService
 
         }
 
-       if(isset($videos))
+       if(isset($videos[0]))
        {
            $this->publishVideo($page_id, $text, $videos, $token);
        }
@@ -73,6 +73,7 @@ class FacebookPostService
             $page_token=$request['access_token'];
             return $page_token;
         } catch (FacebookSDKException $e) {
+            info($e);
         }
 
     }
@@ -103,7 +104,7 @@ class FacebookPostService
     }
     public function publishVideo ($page_id,$text, $videos, $token)
     {
-        info($videos);
+
         $post = array(
           'description' => $text,
           'source' => $this->fb->videoToUpload(implode($videos))
@@ -114,10 +115,10 @@ class FacebookPostService
                 $token);
 
             $request = $request->getGraphNode()->asArray();
-            info ($request);
+
 
         } catch (FacebookSDKException $e) {
-
+            info($e);
         }
 
     }
@@ -139,9 +140,9 @@ class FacebookPostService
                 $token);
 
             $request = $request->getGraphNode()->asArray();
-
+            //info($request);
         } catch (FacebookSDKException $e) {
-
+            info($e);
         }
 
     }
