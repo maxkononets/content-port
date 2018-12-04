@@ -32,19 +32,23 @@ class SchedulePostRequest extends FormRequest
     public function rules()
     {
         $userTimezone = $this->request->all()['timezone'];
+        date_default_timezone_set($userTimezone);
         $userTime = new Carbon('', $userTimezone);
         $postTime = new Carbon($this->request->all()['date'] . ' ' . $this->request->all()['time'], $userTimezone);
 
         return [
             'text' => 'required|max:500',
-            'date' => 'required_with:time|nullable|after:yesterday',
-            'time' => (function () use ($userTime, $postTime) {
-                $time = 'required_with:date|nullable';
-                if ($userTime->toDateString() == $postTime->toDateString()) {
-                    $time .= '|after:now';
-                }
-                return $time;
-            })(),
+            'date' => 'required_with:time|after:yesterday|nullable',
+            'time' => $this->validDate($userTime, $postTime),
         ];
+    }
+
+    public function validDate($userTime, $postTime)
+    {
+        $time = 'required_with:date|nullable';
+        if ($userTime->toDateString() == $postTime->toDateString()) {
+            $time .= '|after:now';
+        }
+        return $time;
     }
 }

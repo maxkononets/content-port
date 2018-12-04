@@ -46,12 +46,13 @@ class PostController extends Controller
 
     /**
      * @param SchedulePost $post
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function update(schedulePost $post, Request $request)
+    public function update(schedulePost $post, $country, $city)
     {
         $post->publication_time = new Carbon($post->publication_time);
-        $post->publication_time->setTimezone($request->timezone);
+//        $post->publication_time->setTimezone($country . '/' . $city);
         $post->date = $post->publication_time->toDateString();
         $post->time = $post->publication_time->toTimeString();
         $attachments = Attachment::getOwnerAttachments($post);
@@ -147,6 +148,6 @@ class PostController extends Controller
 
         $attachmentsEntity['next'] = $attachments->nextPageUrl();
 
-//        return $attachmentsEntity->toJson();
+        return $attachmentsEntity->toJson();
     }
 }

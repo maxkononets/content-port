@@ -55,6 +55,7 @@ class Attachment extends Model
 
     public static function saveOnIds($post, $ids)
     {
+        dd($ids);
         if(isset($ids['videos'])){
             $identifier = $ids['videos'];
             $class = Video::class;
@@ -65,7 +66,7 @@ class Attachment extends Model
         }
         if (isset($class) && isset($identifier)) {
             $attachmentEntity = $class::find($identifier);
-            $post->attachments()->saveMany($attachmentEntity);
+            $post->attachments()->sync($attachmentEntity);
         } else {
             return;
         }
