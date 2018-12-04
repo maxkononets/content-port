@@ -54,3 +54,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/user/{category}/get/posts/', 'CategoryController@getPostsUserCategoryJson')->name('user.category.get.posts.json');
     Route::get('/category/custom/{category}/get/posts/', 'CategoryController@getPostsCustomCategoryJson')->name('custom.category.get.posts.json');
 });
+
+Route::get("/test", function(){ return view("email"); });
