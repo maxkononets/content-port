@@ -9,8 +9,8 @@
 
                 <div class="panel-body text-center">
                     <h2>Welcome to ContentPort</h2>
-                    <h4>content menegment system</h4>
-                    <p>pleas <a href="{{ route('facebook.login') }}"> LogIn with facebook</a> and enjoy us</p>
+                    <h4>- content management system -</h4>
+                    <p>please <a href="{{ route('facebook.login') }}"> LogIn with facebook</a> and enjoy us</p>
                 </div>
             </div>
         </div>

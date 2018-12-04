@@ -44,7 +44,7 @@ class CheckReadinessPost extends Command
     public function handle()
     {
         foreach ($this->posts as $post) {
-            PublishPost::dispatch($post)->delay(Carbon::now());
+            PublishPost::dispatch($post)->delay(Carbon::now())  ;
         }
   }
 }
