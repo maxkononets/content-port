@@ -14,7 +14,7 @@ class AddLongLifeTokenToFacebookAccountsTable extends Migration
     public function up()
     {
         Schema::table('facebook_accounts', function(Blueprint $table) {
-            $table->text('long_life_token');
+            $table->text('long_life_token')->nullable();
         });
     }
 

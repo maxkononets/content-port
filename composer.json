@@ -6,12 +6,14 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "barryvdh/laravel-cors": "^0.11.2",
         "facebook/graph-sdk": "^5.6",
         "fideloper/proxy": "~3.3",
         "graham-campbell/flysystem": "^5.1",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.1",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

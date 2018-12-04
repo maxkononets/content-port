@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Http\Requests\StoreGroupRequest;
+use App\Services\Group\GroupService;
 use App\UserCategory;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,31 +25,24 @@ class GroupController extends Controller
 
     /**
      * @param StoreGroupRequest $request
+     * @param GroupService $groupService
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Facebook\Exceptions\FacebookSDKException
      */
-    public function storeGroup(StoreGroupRequest $request)
+    public function storeGroup(StoreGroupRequest $request, GroupService $groupService)
     {
-        $category = UserCategory::find($request->category);
-        $group = Group::where('link', $request->link)->first();
-
-        if (!$group) {
-            $category->groups()->create($request->all() + [
-                    'name' => 'defaultname',
-                ]);
-        }
-
-        $category->groups()->attach($group);
+        $groupService->addNewGroupToCategory($request);
         return back();
     }
 
     /**
      * @param Group $group
+     * @param UserCategory $category
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
      */
-    public function destroyGroup(Group $group)
+    public function destroyGroup(Group $group, UserCategory $category)
     {
-        $group->delete();
+        $category->groups()->detach($group);
         return back();
     }
 
@@ -58,9 +52,21 @@ class GroupController extends Controller
      */
     public function disableGroup(Group $group)
     {
-        $group->condition = (int)!$group->condition;
-        $group->save();
+        $groupCondition = $group->groupConditions()->
+                where('user_id', Auth::id())->get()->first();
+        $groupCondition->update([
+            'condition' => (int)!$groupCondition->condition
+        ]);
         return back();
     }
 
+    /**
+     * @param GroupService $groupService
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function refreshGroup(GroupService $groupService)
+    {
+        $groupService->refreshGroupList();
+        return back();
+    }
 }

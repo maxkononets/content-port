@@ -8,7 +8,7 @@
 
 namespace App\Http\Requests;
 
-
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SchedulePostRequest extends FormRequest
@@ -31,19 +31,24 @@ class SchedulePostRequest extends FormRequest
      */
     public function rules()
     {
+        $userTimezone = $this->request->all()['timezone'];
+        date_default_timezone_set($userTimezone);
+        $userTime = new Carbon('', $userTimezone);
+        $postTime = new Carbon($this->request->all()['date'] . ' ' . $this->request->all()['time'], $userTimezone);
+
         return [
             'text' => 'required|max:500',
-            'date' => 'required|after:yesterday',
-            'time' => (function () {
-                $time = 'required';
-                if ($this->request->all()['date'] == date('Y-m-d')) {
-                    $time .= '|after:now';
-                }
-
-                return $time;
-            })(),
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'videos.*' => 'max:20480',
+            'date' => 'required_with:time|after:yesterday|nullable',
+            'time' => $this->validDate($userTime, $postTime),
         ];
+    }
+
+    public function validDate($userTime, $postTime)
+    {
+        $time = 'required_with:date|nullable';
+        if ($userTime->toDateString() == $postTime->toDateString()) {
+            $time .= '|after:now';
+        }
+        return $time;
     }
 }

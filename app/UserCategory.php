@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Providers\Categoriable;
+use App\Category;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCategory extends Model
+class UserCategory extends Category implements Categoriable
 {
     protected $fillable = [
         'name',
@@ -12,10 +14,10 @@ class UserCategory extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function groups()
+    public function user()
     {
-        return $this->belongsToMany('App\Group');
+        return $this->belongsTo('App\User');
     }
 }

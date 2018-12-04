@@ -2,15 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Providers\Categoriable;
 
-class CustomCategory extends Model
+class CustomCategory extends Category implements Categoriable
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function groups()
-    {
-        return $this->belongsToMany('App\Group');
-    }
 }

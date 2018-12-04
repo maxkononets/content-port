@@ -19,6 +19,7 @@ class CreateAttachmentSchedulePostPivotTable extends Migration
             $table->integer('schedule_post_id')->unsigned()->index();
             $table->foreign('schedule_post_id')->references('id')->on('schedule_posts')->onDelete('cascade');
             $table->primary(['attachment_id', 'schedule_post_id']);
+            $table->timestamps();
         });
     }
 

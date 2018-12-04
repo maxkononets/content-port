@@ -10,6 +10,7 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
 
 abstract class AttachmentFile extends Model
 {
@@ -19,12 +20,12 @@ abstract class AttachmentFile extends Model
         $className = strtolower(substr(strrchr(get_called_class(), "\/"), 1));
         $name = $attachment->getClientOriginalName();
         $size = $attachment->getSize();
-        $route = $attachment->store('attachments/' . $className);
+        $route = '/storage/' . $attachment->store('attachments/' . $className);
         $instance = new static();
         $instance->fill([
             'name' => $name,
             'size' => $size,
-            'route' => $route,
+            'route' => Request::root() . $route,
         ])->save();
         return $instance;
     }
