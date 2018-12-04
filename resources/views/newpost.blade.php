@@ -28,13 +28,18 @@
                                         <div>{{ $errors->first('text') }}</div>
                                     @endif
                                 </div>
+                                <br>
                                 <div class="row">
                                     <div class="checkbox form-group col-md-4">
                                         <label>
-                                            <input type="checkbox" id="datetime-checkbox" > Schedule post
+                                            <input type="checkbox" id="datetime-checkbox"
+                                                    @if(old('date') || old('time')))
+                                                        checked
+                                                    @endif
+                                            > Schedule post
                                         </label>
                                     </div>
-                                    <div id="datetime-block" class="col-md-8" hidden>
+                                    <div id="datetime-block" class="col-md-8" >
                                         <div class="col-md-6">
                                             <label for="date">Date:</label>
                                             <input type="date" name="date" class="form-control datetime-select" value="{{old('date')}}" min="{{date('now')}}">
@@ -51,6 +56,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br>
                                 <div class="row container-fluid form-attachments-block" id="form-attachments-block" hidden>
                                     <label for="attachments-block">Attachments</label>
                                     <div class="row" id="attachments-block">
@@ -63,6 +69,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 videos-block"></div>
                                         </div>
                                     </div>
+                                    <br>
                                 </div>
                                 {{--attachment places--}}
                                 <div class="row">
@@ -72,6 +79,7 @@
                                     <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
                                         <button class="btn btn-primary btn-xm">Shedule</button>
                                     </div>
+                                    <br>
                                 </div>
                             </form>
                         </div>
