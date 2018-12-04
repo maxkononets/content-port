@@ -4,6 +4,8 @@
 @endsection
 @section('content')
 <div>
-    {{$user}}
+    <img src="{{$user['avatar']}}"><br>
+Your name:    {{$user['name']}}<br>
+Your email: {{$user['email']}}
 </div>
 @endsection
